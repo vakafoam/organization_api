@@ -1,0 +1,47 @@
+<?php
+
+namespace OrganizationBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Uuid;
+
+/**
+ * Organization
+ *
+ * @ORM\Table(name="organization")
+ * @ORM\Entity(repositoryClass="OrganizationBundle\Repository\OrganizationRepository")
+ */
+class Organization
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     */
+    private $name;
+
+    /**
+     * Many Organizations have Many Daughters.
+     * @ORM\ManyToMany(targetEntity="Organization", mappedBy="orgParents")
+     */
+    private $orgDaughters;
+
+    /**
+     * Many Organizations have many Parents.
+     * @ORM\ManyToMany(targetEntity="Organization", inversedBy="orgDaughters")
+     * @ORM\JoinTable(name="parents",
+     *      joinColumns={@ORM\JoinColumn(name="org_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="parent_id", referencedColumnName="id")}
+     *      )
+     */
+    private $orgParents;
+}

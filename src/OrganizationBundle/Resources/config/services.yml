@@ -1,0 +1,4 @@
+services:
+    organization.organization_data:
+        class: OrganizationBundle\Service\OrganizationDataService
+        arguments: ["@doctrine.orm.entity_manager"]
